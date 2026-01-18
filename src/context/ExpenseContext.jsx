@@ -1,18 +1,13 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const ExpenseContext = createContext();
 
-const initialState = {
-  expenses: [],
-  loading: false,
-  error: null
-};  
-
-
 export const ExpenseProvider = ({ children }) => {
 
+  const [AllExpence, setAllExpence] = useState([]);
+
   return (
-    <ExpenseContext.Provider value={{}}>
+    <ExpenseContext.Provider value={{AllExpence, setAllExpence}}>
 {children}
     </ExpenseContext.Provider>
   )
