@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ExpenseContext } from "../context/ExpenseContext";
 
 const AddExpence = () => {
@@ -15,6 +15,7 @@ const AddExpence = () => {
       console.log(price, description, purpose);
       if (!description || !purpose || price <= 0) {
         alert("Please fillup the form correctly");
+        event.target.reset();
         return;
       }
       const exp = {
@@ -24,10 +25,18 @@ const AddExpence = () => {
         created_at: new Date().toISOString(),
         id: Date.now(),
       };
+      setAllExpence([...AllExpence, exp]);
+      alert("Expence added successfully");
+      
+      event.target.reset();
     } catch (error) {
       console.error(error.message);
     }
+    setIsHide(true);
   };
+  useEffect(() => {
+    console.log(AllExpence);
+  }, [AllExpence]);
   return (
     <>
       <div className="mt-10 flex items-center justify-end ">
@@ -51,7 +60,7 @@ const AddExpence = () => {
                 Price (in BDT)<sup className="text-red-600">*</sup>
               </label>
               <input
-                type="text"
+                type="number"
                 className="w-full py-2 border border-gray-400 rounded outline-none px-2"
                 placeholder="Enter Price"
                 id="price"
