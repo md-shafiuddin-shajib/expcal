@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { ExpenseContext } from "../context/ExpenseContext";
+import Swal from "sweetalert2";
 
 const AddExpence = () => {
   const [isHide, setIsHide] = useState(true);
@@ -14,7 +15,12 @@ const AddExpence = () => {
       const purpose = formData.get("purpose") || "";
       console.log(price, description, purpose);
       if (!description || !purpose || price <= 0) {
-        alert("Please fillup the form correctly");
+        
+         Swal.fire({
+          title: "Failed!",
+          text: "Please fillup the form correctly!",
+          icon: "error"
+        });
         event.target.reset();
         return;
       }
@@ -25,8 +31,15 @@ const AddExpence = () => {
         created_at: new Date().toISOString(),
         id: Date.now(),
       };
-      setAllExpence([...AllExpence, exp]);
-      alert("Expence added successfully");
+      const newExpence = [...AllExpence, exp];
+      setAllExpence(newExpence);
+      localStorage.setItem("expence",JSON.stringify(newExpence));
+      
+      Swal.fire({
+          title: "Success!",
+          text: "Expence added successfully!",
+          icon: "Success"
+        });
       
       event.target.reset();
     } catch (error) {
